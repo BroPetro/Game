@@ -1,7 +1,11 @@
 const CACHE_NAME = "Relic-v1";
 const urlsToCache = [
   "index.html",
-  "manifest.json"
+  "manifest.json",
+  "assets/icon-192.png",
+  "assets/icon-512.png",
+  "JS/main.js",
+  "Style/main.css"
 ];
 
 self.addEventListener("install", event => {
