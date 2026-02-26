@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;   
+  align-items: center;  
+  background: linear-gradient(to bottom, #ffffff, #ffffff);
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.story-box {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 30px;
+  border-radius: 15px;
+
+  width: 90%;          
+  max-width: 600px;    
+
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header img {
+  width: 100px;
+  height: 100px;
+}
