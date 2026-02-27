@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../Style/Text.css">
+</head>
+<body>
+   <div class="container">
+      <div class="story-box">
+        
+        <div class="header">
+          <img src="../assets/BroCLIP.gif" alt="BroCLIP">
+          <h1>...</h1>
+        </div>
+
+
+        <p id="welcome"></p><p>Ти щось хотів?</p>
+        <button id="who.are.you?">Хто ти такий?</button>   <button id="where.am.i?">Де я?</button>
+      </div>
+   </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const savedName = localStorage.getItem("username");
+    if (savedName) {
+        document.getElementById("welcome").textContent = 
+            "Приємно познайомитися " + savedName + "!";
+    }
+    });
+    document.getElementById("who.are.you?").addEventListener("click", function() {
+    window.location.href = "2.1.html";
+    });
+      document.getElementById("where.am.i?").addEventListener("click", function() {
+    window.location.href = "2.2.html";
+    });
+    </script>
+</body>
+</html>

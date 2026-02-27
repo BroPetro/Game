@@ -12,18 +12,17 @@
         
         <div class="header">
           <img src="../assets/BroCLIP.gif" alt="BroCLIP">
-          <h1>...</h1>
+          <h1>Коррон</h1>
         </div>
-
-        <p>
-          Привіт! Як тебе звати?
-        </p>
-        <input type="text" id="username" placeholder="Введи своє ім'я">
-        <button onclick="saveName()" id="next">Зберегти</button>
-
+            <p>Ми знаходимося в Аурелії — це королівство, яке розташоване на торговельному шляху.</p>
+            <button id="OK">Ясно</button>
       </div>
    </div>
+    <script>
+                document.getElementById("OK").addEventListener("click", function() {
+                window.location.href = "3.html";
+                });
+    </script>
 
-   <script src="../JS/nameparson.js"></script>
 </body>
 </html>
