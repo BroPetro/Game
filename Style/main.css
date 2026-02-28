@@ -2,17 +2,29 @@ body {
   margin: 0;
   height: 100vh;
   display: flex;
-  justify-content: center;   
-  align-items: center;       
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 15px;
 }
+
 .button_play_sitting {
-    width: 300px;
-    height: 50px;
-    color: rgba(26, 25, 25, 0.966);
+  width: 350px;
+  height: 70px;
+  border: 1px solid #7e7e7e;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button_play_sitting:hover {
+  background-color: #f0f0f0;
 }

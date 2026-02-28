@@ -1,0 +1,34 @@
+p {
+    position: absolute;    
+    bottom: 50px;         
+    left: 50%;
+    font-family: 'Press Start 2P', 'Roboto Slab', sans-serif;            
+    transform: translateX(-50%);  
+    text-align: center;    
+    color: rgb(0, 0, 0);         
+    font-size: 25px;       
+}
+img {
+    position: absolute;       /* абсолютне позиціювання */
+    top: 50%;                 /* по вертикалі центр */
+    left: 50%;                /* по горизонталі центр */
+    transform: translate(-50%, -50%);  /* точно по центру */
+    max-width: 80%;           /* щоб не виходила за межі екрану */
+    height: auto;             /* пропорційна висота */
+}
+button {
+    position: absolute;          /* абсолютне позиціювання */
+    bottom: 10px;                /* відступ від низу, можна змінити */
+    left: 50%;                   /* по горизонталі центр */
+    transform: translateX(-50%); /* центрування по X */
+    font-family: 'Press Start 2P', 'Roboto Slab', sans-serif; /* стиль шрифту */
+    font-size: 20px;
+    padding: 10px 20px;          /* внутрішні відступи */
+    text-align: center;
+    color: white;                /* колір тексту */
+    background-color: #333;      /* фон кнопки, можна змінити */
+    border: 2px solid #fff;      /* обводка */
+    border-radius: 5px;          /* закруглені краї */
+    cursor: pointer;             /* курсор при наведенні */
+    z-index: 10;                 /* щоб кнопка була над усім */
+}
