@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Фінал першого розділу</title>
+  <link rel="stylesheet" href="../Style/Text.css">
+</head>
+<body>
+  <div class="container">
+    <div class="story-box">
+      <div class="header">
+        <img src="../assets/BroCLIP.gif" alt="Коррон">
+        <h1>Розділ завершено!</h1>
+      </div>
+
+      <p id="ending"></p>
+      <p>
+        Ти врятував кристал Аурелії. Попереду — новий розділ: експедиція в Тіньові Гори.
+      </p>
+      <div class="choices">
+        <button id="restart">Почати заново</button>
+        <button id="menu">В головне меню</button>
+      </div>
+      <div id="game-hud"></div>
+    </div>
+  </div>
+
+  <script src="../JS/gameState.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      GameState.saveProgress(100);
+      const state = GameState.readState();
+      document.getElementById('ending').textContent =
+        state.username + ', твої артефакти (' + (state.items.join(', ') || 'немає') + ') увійшли в легенди.';
+      GameState.renderHUD();
+    });
+
+    document.getElementById('restart').addEventListener('click', function () {
+      GameState.resetAdventure();
+      window.location.href = '1.html';
+    });
+
+    document.getElementById('menu').addEventListener('click', function () {
+      window.location.href = '../index.html';
+    });
+  </script>
+</body>
+</html>

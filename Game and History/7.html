@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Місія: Кристал</title>
+  <link rel="stylesheet" href="../Style/Text.css">
+</head>
+<body>
+  <div class="container">
+    <div class="story-box">
+      <div class="header">
+        <img src="../assets/BroCLIP.gif" alt="Коррон">
+        <h1>Місія: Кристал</h1>
+      </div>
+
+      <p>
+        Біля брами ти знаходиш два предмети. Який візьмеш із собою в дорогу?
+      </p>
+
+      <div class="choices">
+        <button data-item="Срібний компас">Срібний компас</button>
+        <button data-item="Руна світла">Руна світла</button>
+      </div>
+
+      <p id="result"></p>
+      <button id="next" style="display:none;">Продовжити шлях</button>
+      <div id="game-hud"></div>
+    </div>
+  </div>
+
+  <script src="../JS/gameState.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      GameState.saveProgress(80);
+      GameState.renderHUD();
+
+      document.querySelectorAll('button[data-item]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const item = btn.getAttribute('data-item');
+          GameState.addItem(item);
+          document.getElementById('result').textContent =
+            'Ти отримав артефакт: ' + item + '. Коррон схвально кивнув.';
+          document.getElementById('next').style.display = 'inline-block';
+          GameState.renderHUD();
+        });
+      });
+    });
+
+    document.getElementById('next').addEventListener('click', function () {
+      window.location.href = '8.html';
+    });
+  </script>
+</body>
+</html>

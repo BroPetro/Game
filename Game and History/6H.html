@@ -1,16 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../Style/Cutscenes.css">
+    <title>Легенда Аурелії</title>
+    <link rel="stylesheet" href="../Style/Text.css">
 </head>
 <body>
-    <div>
-        <img src="../assets/Cutscenes/New Piskel (2).gif" width="1000px" height="500px">
-        <p>Все починалося з маленького містечка.</p>
-        <button>Ок</button>
+    <div class="container">
+      <div class="story-box">
+        <div class="header">
+          <img src="../assets/Cutscenes/New Piskel (2).gif" alt="Сцена заснування Аурелії">
+          <h1>Легенда Аурелії</h1>
+        </div>
+        <p>
+          Все починалося з маленького містечка. Його мешканці відкрили старовинний кристал,
+          який захищав торгові шляхи від темряви. Але сьогодні кристал згасає…
+        </p>
+        <p>Коррон: "Якщо хочеш, допоможи мені відновити його силу. Це буде наша перша місія."</p>
+        <button id="toQuest">Прийняти місію</button>
+        <div id="game-hud"></div>
+      </div>
     </div>
+
+    <script src="../JS/gameState.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        GameState.saveProgress(70);
+        GameState.renderHUD();
+      });
+
+      document.getElementById('toQuest').addEventListener('click', function () {
+        window.location.href = '7.html';
+      });
+    </script>
 </body>
 </html>

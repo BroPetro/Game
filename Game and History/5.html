@@ -10,19 +10,33 @@
 
    <div class="container">
       <div class="story-box">
-        
         <div class="header">
           <img src="../assets/HMMM.gif" alt="BroCLIP">
           <h1>Коррон</h1>
         </div>
             <p>Хочеш, я розповім тобі історію цього королівства?</p>
-            <button id="YES">Так</button>
+            <div class="choices">
+              <button id="YES">Так, веди мене далі</button>
+              <button id="NO">Не зараз</button>
+            </div>
+            <div id="game-hud"></div>
       </div>
    </div>
-        <script>
-                          document.getElementById("YES").addEventListener("click", function() {
-                            window.location.href = "6H.html";
-                            });
-        </script>
+
+    <script src="../JS/gameState.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        GameState.saveProgress(60);
+        GameState.renderHUD();
+      });
+
+      document.getElementById('YES').addEventListener('click', function() {
+        window.location.href = '6H.html';
+      });
+
+      document.getElementById('NO').addEventListener('click', function() {
+        alert('Добре. Коли будеш готовий — натисни "Так" 😊');
+      });
+    </script>
 </body>
 </html>
