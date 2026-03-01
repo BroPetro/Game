@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../Style/Cutscenes.css">
+</head>
+<body>
+    <div>
+        <img src="../assets/Cutscenes/King.gif" width="600px" height="600px">
+        <p>Але зараз прийшов поганий король. Він почав війни й погано керує королівством.</p>
+        <button id="Omg">Ого ви такі схожі !</button><br>
+    </div>
+    <script>
+        localStorage.setItem("lastScene", "Game and History/9H.html");
+            document.getElementById("Omg").addEventListener("click", function() {
+        window.location.href = "9.1.html";
+        });
+    </script>
+</body>
+</html>

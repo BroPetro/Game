@@ -14,17 +14,17 @@
           <img src="../assets/BroCLIP.gif" alt="BroCLIP">
           <h1>Коррон</h1>
         </div>
-        <p>Я тобі вже розповів, звідки я. А ти звідки?</p>
-            <input type="text" id="origin" >
-            <button onclick="saveOrigin()" id="next">Підтвердити</button>
-
-
+            <p>Добре, я тоді продовжу 😊</p>
+            <button id="OK">Ок</button>
       </div>
    </div>
-   <script>
-      localStorage.setItem("lastScene", "Game and History/3.html");
-   </script>
-   <script src="../JS/countryperson.js"></script>
+    <script>
+                localStorage.setItem("lastScene", "Game and History/8.1.html");
+
+                document.getElementById("OK").addEventListener("click", function() {
+                window.location.href = "9H.html";
+                });
+    </script>
 
 </body>
 </html>

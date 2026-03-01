@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../Style/Text.css">
+</head>
+<body>
+   <div class="container">
+      <div class="story-box">
+        
+        <div class="header">
+          <img src="../assets/BroCLIP.gif" alt="BroCLIP">
+          <h1>Коррон</h1>
+        </div>
+            <p>Я сподіваюся, тобі цікаво?</p>
+            <button id="Yes">Так</button>
+            <button id="No">Не дуже</button>
+      </div>
+   </div>
+    <script>
+                localStorage.setItem("lastScene", "Game and History/8.html");
+
+                document.getElementById("Yes").addEventListener("click", function() {
+                window.location.href = "8.1.html";
+                });
+                document.getElementById("No").addEventListener("click", function() {
+                window.location.href = "8.2.html";
+                });
+    </script>
+
+</body>
+</html>

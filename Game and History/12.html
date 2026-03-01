@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сцена 12</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffffff;
+      font-family: Arial, sans-serif;
+      color: #111827;
+      padding: 16px;
+    }
+
+    .card {
+      width: min(680px, 100%);
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 20px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+    }
+
+    p {
+      margin: 0 0 14px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    button {
+      min-width: 140px;
+      height: 42px;
+      border: 1px solid #9ca3af;
+      border-radius: 8px;
+      background: #f9fafb;
+      color: #111827;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Молодець!</h1>
+    <p>Ти зібрав 20 яблук і завершив міні-гру.</p>
+    <button id="nextBtn">Далі</button>
+  </div>
+
+  <script>
+    localStorage.setItem("lastScene", "Game and History/12.html");
+
+    document.getElementById("nextBtn").addEventListener("click", function () {
+      window.location.href = "../index.html";
+    });
+  </script>
+</body>
+</html>
