@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Випробування брами</title>
+  <link rel="stylesheet" href="../Style/Text.css">
+</head>
+<body>
+  <div class="container">
+    <div class="story-box">
+      <div class="header">
+        <img src="../assets/HMMM.gif" alt="Коррон">
+        <h1>Випробування брами</h1>
+      </div>
+
+      <p>Стара брама запитує: "Що сильніше за меч, але не має леза?"</p>
+      <input id="answer" type="text" placeholder="Введи відповідь">
+      <button id="check">Перевірити</button>
+      <p id="feedback"></p>
+      <button id="finish" style="display:none;">Увійти до міста</button>
+      <div id="game-hud"></div>
+    </div>
+  </div>
+
+  <script src="../JS/gameState.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      GameState.renderHUD();
+    });
+
+    document.getElementById('check').addEventListener('click', function () {
+      const answer = document.getElementById('answer').value.trim().toLowerCase();
+      const success = ['слово', 'розум', 'думка'].includes(answer);
+
+      if (success) {
+        GameState.saveProgress(95);
+        document.getElementById('feedback').textContent =
+          'Правильно! Брама відчинилась, а кристал знову засяяв.';
+        document.getElementById('finish').style.display = 'inline-block';
+      } else {
+        document.getElementById('feedback').textContent =
+          'Майже! Підказка: це те, чим герої надихають армії.';
+      }
+
+      GameState.renderHUD();
+    });
+
+    document.getElementById('finish').addEventListener('click', function () {
+      window.location.href = '9.html';
+    });
+  </script>
+</body>
+</html>

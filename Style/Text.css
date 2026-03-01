@@ -36,3 +36,44 @@ body {
   width: 100px;
   height: 100px;
 }
+#game-hud {
+  margin-top: 16px;
+  text-align: left;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.hud-progress-wrap {
+  margin: 8px 0;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.hud-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #22d3ee, #22c55e);
+  transition: width 0.3s ease;
+}
+
+.choices {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: bold;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
