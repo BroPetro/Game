@@ -25,7 +25,15 @@ const allowedScenes = new Set([
     "Game and History/9.1.html",
     "Game and History/10.html",
     "Game and History/11.html",
-    "Game and History/12.html"
+    "Game and History/12.html",
+    "Game and History/12.1H.html",
+    "Game and History/12.2.html",
+    "Game and History/13.1.html",
+    "Game and History/14.html",
+    "Game and History/15.html",
+    "Game and History/16.html",
+    "Game and History/17.html",
+    "Game and History/18.html"
 ]);
 
 let continuePath = "";

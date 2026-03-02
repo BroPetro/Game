@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../Style/Text.css">
+</head>
+<body>
+   <div class="container">
+      <div class="story-box">
+        <div class="header">
+          <img src="../assets/HMMM.gif" alt="Коррон">
+          <h1>Коррон</h1>
+        </div>
+            <p>Ось 200 карбованців. На ринку нам потрібні меч і щит.</p>
+            <p>Ти зможеш торгуватися, але головне купи обидві речі.</p>
+            <button id="Next">Йду на ринок</button>
+      </div>
+   </div>
+    <script>
+                localStorage.setItem("lastScene", "Game and History/16.html");
+
+                document.getElementById("Next").addEventListener("click", function() {
+                window.location.href = "17.html";
+                });
+    </script>
+
+</body>
+</html>

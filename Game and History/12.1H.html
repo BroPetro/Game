@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../Style/Cutscenes.css">
+</head>
+<body>
+    <div>
+        <img src="../assets/Cutscenes/BedKing.gif" width="500px" height="500px">
+        <p>Одного дня він став злим правителем і почав ухвалювати нерозумні закони</p>
+        <button id="Omg">Ого</button><br>
+    </div>
+    <script>
+        localStorage.setItem("lastScene", "Game and History/12.1.html");
+            document.getElementById("Omg").addEventListener("click", function() {
+        window.location.href = "13.1.html";
+        });
+    </script>
+</body>
+</html>

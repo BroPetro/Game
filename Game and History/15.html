@@ -1,0 +1,407 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Дорога до ринку</title>
+  <style>
+    :root {
+      --panel-bg: rgba(0, 0, 0, 0.72);
+      --panel-border: rgba(255, 255, 255, 0.25);
+      --text: #f9fafb;
+      --accent: #facc15;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: #111827;
+      color: var(--text);
+    }
+
+    .arena {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, #93c5fd 0 36%, #86efac 36% 100%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.10) 0 34px, rgba(0,0,0,0.04) 34px 36px);
+      touch-action: none;
+    }
+
+    .hud {
+      position: fixed;
+      top: max(10px, env(safe-area-inset-top));
+      left: max(10px, env(safe-area-inset-left));
+      right: max(10px, env(safe-area-inset-right));
+      z-index: 30;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      backdrop-filter: blur(3px);
+    }
+
+    .hud h1 {
+      margin: 0 0 4px 0;
+      font-size: clamp(17px, 2.2vw, 26px);
+      line-height: 1.15;
+    }
+
+    .hud p {
+      margin: 0;
+      font-size: clamp(13px, 1.55vw, 18px);
+      line-height: 1.3;
+    }
+
+    #goal {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .market {
+      position: absolute;
+      left: 76%;
+      top: 8%;
+      width: 20%;
+      height: 26%;
+      border-radius: 8px;
+      border: 2px dashed #7c2d12;
+      background: linear-gradient(180deg, #fbbf24, #d97706);
+      color: #1f2937;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 6px;
+      font-size: clamp(12px, 1.4vw, 20px);
+    }
+
+    .market.locked {
+      filter: grayscale(0.75);
+      opacity: 0.6;
+    }
+
+    .item {
+      position: absolute;
+      left: 12%;
+      top: 72%;
+      width: 9%;
+      aspect-ratio: 1;
+      border-radius: 999px;
+      border: 2px solid #0284c7;
+      background: radial-gradient(circle, #ffffff, #7dd3fc);
+      color: #0c4a6e;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: clamp(11px, 1.2vw, 17px);
+      box-shadow: 0 0 14px rgba(125, 211, 252, 0.9);
+      padding: 4px;
+    }
+
+    .item.hidden {
+      display: none;
+    }
+
+    .obstacle {
+      position: absolute;
+      background: #14532d;
+      border: 2px solid #052e16;
+      border-radius: 8px;
+    }
+
+    #player {
+      position: absolute;
+      left: 9%;
+      top: 10%;
+      width: 6.5%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+      z-index: 5;
+    }
+
+    #fade {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      text-align: center;
+      background: rgba(0,0,0,0.72);
+      color: #f9fafb;
+      font-weight: 700;
+      font-size: clamp(18px, 2.5vw, 30px);
+      padding: 16px;
+      z-index: 40;
+    }
+
+    #fade.show {
+      display: grid;
+    }
+
+    .controls {
+      position: fixed;
+      left: max(10px, env(safe-area-inset-left));
+      right: max(10px, env(safe-area-inset-right));
+      bottom: max(10px, env(safe-area-inset-bottom));
+      z-index: 35;
+      display: none;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .pad {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(3, minmax(56px, 78px));
+      pointer-events: auto;
+    }
+
+    .ctrl {
+      min-height: 56px;
+      border: 1px solid #9ca3af;
+      border-radius: 10px;
+      background: rgba(243, 244, 246, 0.95);
+      color: #111827;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .ctrl:active {
+      background: #d1d5db;
+    }
+
+    .empty {
+      visibility: hidden;
+    }
+
+    @media (pointer: coarse) {
+      .controls {
+        display: flex;
+      }
+
+      .hud {
+        max-width: 92vw;
+      }
+    }
+
+    @media (pointer: coarse) and (orientation: landscape) {
+      .ctrl {
+        min-height: 50px;
+        font-size: 22px;
+      }
+
+      .pad {
+        grid-template-columns: repeat(3, minmax(50px, 72px));
+      }
+
+      .hud {
+        width: min(62vw, 760px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="arena" aria-label="Ігрове поле">
+    <div id="market" class="market locked">Ринок</div>
+    <div id="pass" class="item">Пропуск</div>
+
+    <div class="obstacle" style="left: 28%; top: 18%; width: 18%; height: 10%;"></div>
+    <div class="obstacle" style="left: 36%; top: 56%; width: 24%; height: 12%;"></div>
+    <div class="obstacle" style="left: 62%; top: 32%; width: 10%; height: 26%;"></div>
+
+    <img id="player" src="../assets/player.png" alt="Герой">
+  </section>
+
+  <div class="hud">
+    <h1>Коррон</h1>
+    <p id="goal">Завдання: знайди пропуск мандрівника, а потім зайди на ринок.</p>
+    <p>Керування: WASD або стрілки.</p>
+  </div>
+
+  <section class="controls" aria-label="Керування на телефоні">
+    <div class="pad">
+      <button class="ctrl empty" aria-hidden="true">•</button>
+      <button class="ctrl" data-dir="up" aria-label="Вгору">▲</button>
+      <button class="ctrl empty" aria-hidden="true">•</button>
+      <button class="ctrl" data-dir="left" aria-label="Вліво">◀</button>
+      <button class="ctrl" data-dir="down" aria-label="Вниз">▼</button>
+      <button class="ctrl" data-dir="right" aria-label="Вправо">▶</button>
+    </div>
+  </section>
+
+  <div id="fade">Ти увійшов на ринок. Починається діалог...</div>
+
+  <script>
+    localStorage.setItem("lastScene", "Game and History/15.html");
+
+    const player = document.getElementById("player");
+    const goal = document.getElementById("goal");
+    const pass = document.getElementById("pass");
+    const market = document.getElementById("market");
+    const fade = document.getElementById("fade");
+
+    const playerSize = 6.5;
+    const speed = 36;
+    let x = 9;
+    let y = 10;
+    let passTaken = false;
+    let finished = false;
+
+    const keys = { up: false, down: false, left: false, right: false };
+
+    const obstacles = [
+      { x: 28, y: 18, w: 18, h: 10 },
+      { x: 36, y: 56, w: 24, h: 12 },
+      { x: 62, y: 32, w: 10, h: 26 }
+    ];
+
+    const marketZone = { x: 76, y: 8, w: 20, h: 26 };
+    const passZone = { x: 12, y: 72, w: 9, h: 9 };
+
+    function intersects(a, b) {
+      return a.x < b.x + b.w &&
+             a.x + a.w > b.x &&
+             a.y < b.y + b.h &&
+             a.y + a.h > b.y;
+    }
+
+    function playerRect(nx = x, ny = y) {
+      return { x: nx, y: ny, w: playerSize, h: playerSize };
+    }
+
+    function collides(nx, ny) {
+      const rect = playerRect(nx, ny);
+      return obstacles.some(function(ob) {
+        return intersects(rect, ob);
+      });
+    }
+
+    function clamp(v, min, max) {
+      return Math.max(min, Math.min(max, v));
+    }
+
+    function render() {
+      player.style.left = x + "%";
+      player.style.top = y + "%";
+    }
+
+    function move(dt) {
+      let dx = 0;
+      let dy = 0;
+
+      if (keys.left) dx -= speed * dt;
+      if (keys.right) dx += speed * dt;
+      if (keys.up) dy -= speed * dt;
+      if (keys.down) dy += speed * dt;
+
+      if (dx !== 0 && dy !== 0) {
+        dx *= 0.7071;
+        dy *= 0.7071;
+      }
+
+      const nx = clamp(x + dx, 0, 100 - playerSize);
+      if (!collides(nx, y)) {
+        x = nx;
+      }
+
+      const ny = clamp(y + dy, 0, 100 - playerSize);
+      if (!collides(x, ny)) {
+        y = ny;
+      }
+    }
+
+    function checkEvents() {
+      const pRect = playerRect();
+
+      if (!passTaken && intersects(pRect, passZone)) {
+        passTaken = true;
+        pass.classList.add("hidden");
+        market.classList.remove("locked");
+        goal.textContent = "Пропуск знайдено. Тепер зайди на ринок у правому верхньому куті.";
+      }
+
+      if (passTaken && !finished && intersects(pRect, marketZone)) {
+        finished = true;
+        keys.up = false;
+        keys.down = false;
+        keys.left = false;
+        keys.right = false;
+        fade.classList.add("show");
+        localStorage.setItem("lastScene", "Game and History/16.html");
+        setTimeout(function() {
+          window.location.href = "16.html";
+        }, 1100);
+      }
+    }
+
+    function setDirectionFromKey(key, value) {
+      const k = key.toLowerCase();
+      if (key === "ArrowUp" || k === "w") keys.up = value;
+      if (key === "ArrowDown" || k === "s") keys.down = value;
+      if (key === "ArrowLeft" || k === "a") keys.left = value;
+      if (key === "ArrowRight" || k === "d") keys.right = value;
+    }
+
+    window.addEventListener("keydown", function(e) {
+      setDirectionFromKey(e.key, true);
+    });
+
+    window.addEventListener("keyup", function(e) {
+      setDirectionFromKey(e.key, false);
+    });
+
+    document.querySelectorAll(".ctrl[data-dir]").forEach(function(btn) {
+      const dir = btn.getAttribute("data-dir");
+
+      function pressStart(e) {
+        e.preventDefault();
+        keys[dir] = true;
+      }
+
+      function pressEnd(e) {
+        e.preventDefault();
+        keys[dir] = false;
+      }
+
+      btn.addEventListener("pointerdown", pressStart);
+      btn.addEventListener("pointerup", pressEnd);
+      btn.addEventListener("pointercancel", pressEnd);
+      btn.addEventListener("pointerleave", pressEnd);
+    });
+
+    let last = 0;
+    function loop(ts) {
+      if (!last) {
+        last = ts;
+      }
+      const dt = (ts - last) / 1000;
+      last = ts;
+
+      if (!finished) {
+        move(dt);
+        checkEvents();
+        render();
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    render();
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

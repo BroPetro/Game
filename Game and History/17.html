@@ -1,0 +1,370 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - Ринок</title>
+    <link rel="stylesheet" href="../Style/Text.css">
+    <style>
+      .story-box.market-game {
+        width: 95%;
+        max-width: 1150px;
+        max-height: 92vh;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        display: grid;
+        gap: 14px;
+      }
+
+      .money {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 800;
+        color: #facc15;
+      }
+
+      .hint {
+        margin: 0;
+        color: #e5e7eb;
+      }
+
+      .shop-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(240px, 1fr));
+        gap: 12px;
+      }
+
+      .item-card {
+        background: rgba(17, 24, 39, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 12px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .item-title {
+        margin: 0;
+        font-size: 22px;
+      }
+
+      .item-img {
+        width: 100%;
+        height: 170px;
+        object-fit: contain;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+      }
+
+      .price {
+        margin: 0;
+        font-weight: 700;
+        font-size: 18px;
+        color: #93c5fd;
+      }
+
+      .status {
+        margin: 0;
+        min-height: 42px;
+        color: #d1d5db;
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .actions button {
+        border: 1px solid #9ca3af;
+        border-radius: 8px;
+        padding: 10px 12px;
+        background: #f3f4f6;
+        color: #111827;
+        font-weight: 700;
+        font-size: 15px;
+        min-height: 46px;
+        cursor: pointer;
+      }
+
+      .actions button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .actions button:hover {
+        background: #e5e7eb;
+      }
+
+      #globalStatus {
+        margin: 0;
+        color: #f3f4f6;
+      }
+
+      @media (max-width: 840px) {
+        .shop-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .item-img {
+          height: 140px;
+        }
+
+        .money {
+          font-size: 20px;
+        }
+      }
+
+      @media (orientation: landscape) and (max-height: 560px) and (pointer: coarse) {
+        body {
+          align-items: flex-start;
+          padding-top: 6px;
+          padding-bottom: 6px;
+        }
+
+        .story-box.market-game {
+          max-height: calc(100vh - 12px);
+          padding: 12px;
+          gap: 8px;
+        }
+
+        .header img {
+          width: 64px;
+          height: 64px;
+        }
+
+        .header h1 {
+          font-size: 26px;
+          margin: 0;
+        }
+
+        .hint,
+        #globalStatus,
+        .status {
+          font-size: 13px;
+        }
+
+        .money {
+          font-size: 18px;
+        }
+
+        .shop-grid {
+          grid-template-columns: repeat(2, minmax(170px, 1fr));
+          gap: 8px;
+        }
+
+        .item-card {
+          padding: 8px;
+          gap: 6px;
+        }
+
+        .item-title {
+          font-size: 17px;
+        }
+
+        .item-img {
+          height: 86px;
+        }
+
+        .price {
+          font-size: 14px;
+        }
+
+        .status {
+          min-height: 30px;
+        }
+
+        .actions {
+          gap: 6px;
+        }
+
+        .actions button {
+          min-height: 38px;
+          font-size: 13px;
+          padding: 8px 9px;
+        }
+      }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div class="story-box market-game">
+      <div class="header">
+        <img src="../assets/HMMM.gif" alt="Коррон">
+        <h1>Ринковий торг</h1>
+      </div>
+
+      <p class="hint">У тебе 200 карбованців. Купи меч і щит. Торг може тільки зменшити ціну.</p>
+      <p id="money" class="money">Гроші: 200 карбованців</p>
+
+      <section class="shop-grid">
+        <article class="item-card" id="card-sword">
+          <h2 class="item-title">Меч</h2>
+          <img class="item-img" src="../assets/kinife.png" alt="Меч">
+          <p class="price" id="price-sword">Ціна продавця: 110</p>
+          <p class="status" id="status-sword">Продавець: "Меч гострий, 110 і ні карбованця менше".</p>
+          <div class="actions">
+            <button id="bargain-sword">Торгуватися</button>
+            <button id="buy-sword">Купити</button>
+          </div>
+        </article>
+
+        <article class="item-card" id="card-shield">
+          <h2 class="item-title">Щит</h2>
+          <img class="item-img" src="../assets/Shut.png" alt="Щит">
+          <p class="price" id="price-shield">Ціна продавця: 90</p>
+          <p class="status" id="status-shield">Продавець: "Щит міцний, за 90 віддам".</p>
+          <div class="actions">
+            <button id="bargain-shield">Торгуватися</button>
+            <button id="buy-shield">Купити</button>
+          </div>
+        </article>
+      </section>
+
+      <p id="globalStatus">Купи обидва предмети, після цього продовжимо сюжет.</p>
+    </div>
+  </div>
+
+  <script>
+    localStorage.setItem("lastScene", "Game and History/17.html");
+
+    const state = {
+      money: 200,
+      items: {
+        sword: {
+          name: "меч",
+          price: 110,
+          minPrice: 85,
+          bargains: 0,
+          maxBargains: 4,
+          bought: false
+        },
+        shield: {
+          name: "щит",
+          price: 90,
+          minPrice: 70,
+          bargains: 0,
+          maxBargains: 4,
+          bought: false
+        }
+      }
+    };
+
+    const refs = {
+      money: document.getElementById("money"),
+      globalStatus: document.getElementById("globalStatus"),
+      sword: {
+        price: document.getElementById("price-sword"),
+        status: document.getElementById("status-sword"),
+        bargainBtn: document.getElementById("bargain-sword"),
+        buyBtn: document.getElementById("buy-sword")
+      },
+      shield: {
+        price: document.getElementById("price-shield"),
+        status: document.getElementById("status-shield"),
+        bargainBtn: document.getElementById("bargain-shield"),
+        buyBtn: document.getElementById("buy-shield")
+      }
+    };
+
+    function updateUI() {
+      refs.money.textContent = "Гроші: " + state.money + " карбованців";
+
+      ["sword", "shield"].forEach(function(id) {
+        const item = state.items[id];
+        const r = refs[id];
+        r.price.textContent = "Ціна продавця: " + item.price;
+
+        if (item.bought) {
+          r.bargainBtn.disabled = true;
+          r.buyBtn.disabled = true;
+          r.buyBtn.textContent = "Куплено";
+        } else {
+          r.bargainBtn.disabled = item.bargains >= item.maxBargains;
+          r.buyBtn.disabled = state.money < item.price;
+          r.buyBtn.textContent = "Купити";
+        }
+      });
+    }
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function bargain(itemId) {
+      const item = state.items[itemId];
+      const r = refs[itemId];
+
+      if (item.bought || item.bargains >= item.maxBargains) {
+        return;
+      }
+
+      item.bargains += 1;
+
+      const discount = randomInt(4, 10);
+      const oldPrice = item.price;
+      item.price = Math.max(item.minPrice, item.price - discount);
+
+      if (item.price < oldPrice) {
+        r.status.textContent = "Продавець поступився. Нова ціна: " + item.price + ".";
+      } else {
+        r.status.textContent = "Далі вже не скину, це мінімум.";
+      }
+
+      if (item.bargains >= item.maxBargains && !item.bought) {
+        r.status.textContent += " Торг завершено.";
+      }
+
+      refs.globalStatus.textContent = "Торг триває. Купи обидва предмети.";
+      updateUI();
+    }
+
+    function buy(itemId) {
+      const item = state.items[itemId];
+      const r = refs[itemId];
+
+      if (item.bought) {
+        return;
+      }
+
+      if (state.money < item.price) {
+        refs.globalStatus.textContent = "Не вистачає грошей. Спробуй ще поторгуватися.";
+        return;
+      }
+
+      state.money -= item.price;
+      item.bought = true;
+      r.status.textContent = "Куплено: " + item.name + ".";
+
+      const completed = state.items.sword.bought && state.items.shield.bought;
+      if (completed) {
+        refs.globalStatus.textContent = "Успіх. Меч і щит куплено. Переходимо далі...";
+        localStorage.setItem("lastScene", "Game and History/18.html");
+        setTimeout(function() {
+          window.location.href = "18.html";
+        }, 1000);
+      } else {
+        refs.globalStatus.textContent = "Добре. Тепер купи другий предмет.";
+      }
+
+      updateUI();
+    }
+
+    refs.sword.bargainBtn.addEventListener("click", function() {
+      bargain("sword");
+    });
+    refs.shield.bargainBtn.addEventListener("click", function() {
+      bargain("shield");
+    });
+
+    refs.sword.buyBtn.addEventListener("click", function() {
+      buy("sword");
+    });
+    refs.shield.buyBtn.addEventListener("click", function() {
+      buy("shield");
+    });
+
+    updateUI();
+  </script>
+</body>
+</html>

@@ -1,23 +1,37 @@
-const CACHE_NAME = "relic-v0.0.3";
+﻿const CACHE_NAME = "relic-v0.0.4";
 const OFFLINE_URL = "offline.html";
 
 const urlsToCache = [
   "index.html",
   "offline.html",
   "manifest.json",
-  "assets/icon-192.png",
-  "assets/icon-512.png",
-  "assets/BroCLIP.gif",
-  "assets/HMMM.gif",
-  "assets/Cutscenes/New Piskel (2).gif",
+  "settings.html",
+  "sw.js",
+
   "JS/main.js",
   "JS/countryperson.js",
   "JS/nameparson.js",
+
   "Style/main.css",
   "Style/Cutscenes.css",
   "Style/offline.css",
   "Style/Text.css",
-  "settings.html",
+
+  "assets/apple.png",
+  "assets/BroCLIP.gif",
+  "assets/HMMM.gif",
+  "assets/icon-192.png",
+  "assets/icon-512.png.png",
+  "assets/kinife.png",
+  "assets/Player.png",
+  "assets/SedBro.gif",
+  "assets/Shut.png",
+  "assets/Cutscenes/BedKing.gif",
+  "assets/Cutscenes/King.gif",
+  "assets/Cutscenes/New Piskel (2).gif",
+  "assets/Cutscenes/Shop.gif",
+  "assets/Cutscenes/Shop.png",
+
   "Game and History/1.html",
   "Game and History/2.html",
   "Game and History/2.1.html",
@@ -25,21 +39,33 @@ const urlsToCache = [
   "Game and History/3.html",
   "Game and History/4.html",
   "Game and History/5.html",
-  "Game and History/6H.html"
+  "Game and History/6H.html",
+  "Game and History/7H.html",
+  "Game and History/8.html",
+  "Game and History/8.1.html",
+  "Game and History/8.2.html",
+  "Game and History/9H.html",
+  "Game and History/9.1.html",
+  "Game and History/10.html",
+  "Game and History/11.html",
+  "Game and History/12.html",
+  "Game and History/12.1H.html",
+  "Game and History/12.2.html",
+  "Game and History/13.1.html",
+  "Game and History/14.html",
+  "Game and History/15.html",
+  "Game and History/16.html",
+  "Game and History/17.html",
+  "Game and History/18.html"
 ];
 
-
-// INSTALL
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
   self.skipWaiting();
 });
 
-
-// ACTIVATE (очищає старі кеші)
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -48,6 +74,7 @@ self.addEventListener("activate", event => {
           if (cache !== CACHE_NAME) {
             return caches.delete(cache);
           }
+          return null;
         })
       );
     })
@@ -55,8 +82,6 @@ self.addEventListener("activate", event => {
   self.clients.claim();
 });
 
-
-// FETCH
 self.addEventListener("fetch", event => {
   event.respondWith(
     fetch(event.request)
@@ -67,10 +92,9 @@ self.addEventListener("fetch", event => {
         });
       })
       .catch(() => {
-        return caches.match(event.request)
-          .then(response => {
-            return response || caches.match(OFFLINE_URL);
-          });
+        return caches.match(event.request).then(response => {
+          return response || caches.match(OFFLINE_URL);
+        });
       })
   );
 });

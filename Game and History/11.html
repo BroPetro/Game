@@ -166,21 +166,59 @@
     const appleEl = document.getElementById("apple");
     const doneEl = document.getElementById("done");
 
-    function moveApple() {
-      const arenaRect = arenaEl.getBoundingClientRect();
-      const appleRect = appleEl.getBoundingClientRect();
+    let fallRafId = 0;
+    let lastFrameTs = 0;
+    let fallY = 0;
 
-      const maxX = Math.max(0, arenaRect.width - appleRect.width);
-      const maxY = Math.max(0, arenaRect.height - appleRect.height);
+    function getAppleSize() {
+      return {
+        width: appleEl.offsetWidth || 72,
+        height: appleEl.offsetHeight || 72
+      };
+    }
 
+    function placeAppleAtTop() {
+      const arenaWidth = arenaEl.clientWidth;
+      const appleSize = getAppleSize();
+      const maxX = Math.max(0, arenaWidth - appleSize.width);
       const x = Math.floor(Math.random() * (maxX + 1));
-      const y = Math.floor(Math.random() * (maxY + 1));
 
+      fallY = -appleSize.height;
       appleEl.style.left = x + "px";
-      appleEl.style.top = y + "px";
+      appleEl.style.top = fallY + "px";
+    }
+
+    function updateFalling(ts) {
+      if (!lastFrameTs) {
+        lastFrameTs = ts;
+      }
+
+      const dt = (ts - lastFrameTs) / 16.6667;
+      lastFrameTs = ts;
+
+      const arenaHeight = arenaEl.clientHeight;
+      const appleSize = getAppleSize();
+      const speed = 2.1 + count * 0.09;
+
+      fallY += speed * dt;
+      appleEl.style.top = fallY + "px";
+
+      if (fallY > arenaHeight) {
+        placeAppleAtTop();
+      }
+
+      fallRafId = window.requestAnimationFrame(updateFalling);
+    }
+
+    function startFalling() {
+      window.cancelAnimationFrame(fallRafId);
+      lastFrameTs = 0;
+      placeAppleAtTop();
+      fallRafId = window.requestAnimationFrame(updateFalling);
     }
 
     function finishGame() {
+      window.cancelAnimationFrame(fallRafId);
       appleEl.disabled = true;
       doneEl.classList.add("show");
       setTimeout(function() {
@@ -197,12 +235,12 @@
         return;
       }
 
-      moveApple();
+      placeAppleAtTop();
     });
 
-    window.addEventListener("resize", moveApple);
-    window.addEventListener("orientationchange", moveApple);
-    moveApple();
+    window.addEventListener("resize", placeAppleAtTop);
+    window.addEventListener("orientationchange", placeAppleAtTop);
+    startFalling();
   </script>
 </body>
 </html>
