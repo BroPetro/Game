@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../Style/Text.css">
+    <script src="../JS/theme.js"></script>
+</head>
+<body>
+   <div class="container">
+      <div class="story-box">
+        <div class="header">
+          <img src="../assets/BroCLIP.gif" alt="Коррон">
+          <h1>Перед Радою</h1>
+        </div>
+            <p>Ранком ти передав документи писарю ради. Фальшиві звіти і справжні цифри не залишили сумнівів.</p>
+            <p>Коррон: "Сьогодні ми не лише врятували місто. Ми повернули людям правду."</p>
+            <p>Наступний крок: вирішити, кого ставити новим хранителем скарбниці.</p>
+            <button id="ToMap">До вибору глави</button>
+            <button id="Replay">Переграти лабіринт</button>
+      </div>
+   </div>
+    <script>
+                localStorage.setItem("lastScene", "Game and History/26.html");
+
+                document.getElementById("ToMap").addEventListener("click", function() {
+                  window.location.href = "../story-logic.html";
+                });
+
+                document.getElementById("Replay").addEventListener("click", function() {
+                  window.location.href = "24.html";
+                });
+    </script>
+</body>
+</html>

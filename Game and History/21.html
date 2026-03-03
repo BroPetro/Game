@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../Style/Text.css">
+    <script src="../JS/theme.js"></script>
+</head>
+<body>
+   <div class="container">
+      <div class="story-box">
+        <div class="header">
+          <img src="../assets/Knight.png" alt="Вартовий">
+          <h1>Вартовий брами</h1>
+        </div>
+            <p>Стій! До кварталу пускаємо тільки тих, хто знає пароль ночі.</p>
+            <p>Вибери, як відповісти:</p>
+            <button id="TryTruth">Скажу правду: ми шукаємо докази</button>
+            <button id="TryCode">Скажу: "Світло Аурелії"</button>
+      </div>
+   </div>
+    <script>
+                localStorage.setItem("lastScene", "Game and History/21.html");
+
+                document.getElementById("TryTruth").addEventListener("click", function() {
+                    localStorage.setItem("gateChoice", "truth");
+                    window.location.href = "22.html";
+                });
+
+                document.getElementById("TryCode").addEventListener("click", function() {
+                    localStorage.setItem("gateChoice", "code");
+                    window.location.href = "22.html";
+                });
+    </script>
+</body>
+</html>

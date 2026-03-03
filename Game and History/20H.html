@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../Style/Cutscenes.css">
+    <script src="../JS/theme.js"></script>
+</head>
+<body>
+    <div>
+        <img src="../assets/Cutscenes/Door.png" alt="Нічна брама" width=" 320px" height="320px">
+        <p>Під покровом ночі ви дісталися до брами королівського кварталу.</p>
+        <button id="Next">Далі</button>
+    </div>
+    <script>
+        localStorage.setItem("lastScene", "Game and History/20H.html");
+        document.getElementById("Next").addEventListener("click", function() {
+            window.location.href = "21.html";
+        });
+    </script>
+</body>
+</html>

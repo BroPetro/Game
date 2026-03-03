@@ -1,11 +1,32 @@
-﻿body {
+﻿:root {
+  --bg: #f8fafc;
+  --text: #0f172a;
+  --btn-bg: #ffffff;
+  --btn-bg-hover: #f1f5f9;
+  --btn-border: #94a3b8;
+  --btn-disabled: #e2e8f0;
+  --btn-disabled-text: #64748b;
+}
+
+html[data-theme="dark"] {
+  --bg: #020617;
+  --text: #f8fafc;
+  --btn-bg: #111827;
+  --btn-bg-hover: #1f2937;
+  --btn-border: #475569;
+  --btn-disabled: #1e293b;
+  --btn-disabled-text: #94a3b8;
+}
+
+body {
   margin: 0;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 .container {
@@ -17,25 +38,26 @@
 .button_play_sitting {
   width: 350px;
   height: 70px;
-  border: 1px solid #7e7e7e;
+  border: 1px solid var(--btn-border);
   border-radius: 8px;
-  background-color: white;
+  background-color: var(--btn-bg);
+  color: var(--text);
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .button_play_sitting:hover {
-  background-color: #f0f0f0;
+  background-color: var(--btn-bg-hover);
 }
 
 .button_play_sitting:disabled {
   cursor: not-allowed;
-  color: #9a9a9a;
-  background-color: #efefef;
-  border-color: #cfcfcf;
+  color: var(--btn-disabled-text);
+  background-color: var(--btn-disabled);
+  border-color: var(--btn-border);
 }
 
 .button_play_sitting:disabled:hover {
-  background-color: #efefef;
+  background-color: var(--btn-disabled);
 }

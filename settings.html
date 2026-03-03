@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1120">
+  <title>Налаштування</title>
+  <script src="JS/theme.js"></script>
+  <link rel="stylesheet" href="Style/settings.css">
+</head>
+<body>
+  <main class="settings">
+    <h1>Налаштування</h1>
+    <p>Обери тему інтерфейсу для катсцен і діалогів.</p>
+
+    <section class="theme-row" aria-label="Вибір теми">
+      <button class="btn" id="themeLight">Світла тема</button>
+      <button class="btn" id="themeDark">Темна тема</button>
+    </section>
+
+    <div class="actions">
+      <button class="back" id="backToMenu">Назад у меню</button>
+    </div>
+  </main>
+
+  <script>
+    const lightBtn = document.getElementById("themeLight");
+    const darkBtn = document.getElementById("themeDark");
+
+    function applyActiveState(theme) {
+      lightBtn.classList.toggle("active", theme === "light");
+      darkBtn.classList.toggle("active", theme === "dark");
+    }
+
+    const current = localStorage.getItem("theme") === "light" ? "light" : "dark";
+    applyActiveState(current);
+
+    lightBtn.addEventListener("click", function() {
+      window.setTheme("light");
+      applyActiveState("light");
+    });
+
+    darkBtn.addEventListener("click", function() {
+      window.setTheme("dark");
+      applyActiveState("dark");
+    });
+
+    document.getElementById("backToMenu").addEventListener("click", function() {
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>
+

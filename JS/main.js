@@ -2,6 +2,10 @@
     window.location.href = "Game and History/1.html";
 });
 
+document.getElementById("storyLogicBtn").addEventListener("click", function() {
+    window.location.href = "story-logic.html";
+});
+
 document.getElementById("settingsBtn").addEventListener("click", function() {
     window.location.href = "settings.html";
 });
@@ -33,7 +37,12 @@ const allowedScenes = new Set([
     "Game and History/15.html",
     "Game and History/16.html",
     "Game and History/17.html",
-    "Game and History/18.html"
+    "Game and History/18.html",
+    "Game and History/19.html",
+    "Game and History/20H.html",
+    "Game and History/21.html",
+    "Game and History/22.html",
+    "Game and History/23.html"
 ]);
 
 let continuePath = "";

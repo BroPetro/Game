@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../Style/Text.css">
+    <script src="../JS/theme.js"></script>
+</head>
+<body>
+   <div class="container">
+      <div class="story-box">
+        <div class="header">
+          <img src="../assets/HMMM.gif" alt="Коррон">
+          <h1>Таємний архів</h1>
+        </div>
+            <p>Ти повернувся з лабіринту живим. Усі документи в нас.</p>
+            <p>Коррон: "Це прямі докази. Податки крали роками, а людей обманювали."</p>
+            <p>Тепер треба підготувати виступ перед радою і викрити королівського скарбника.</p>
+            <button id="Next">Продовжити</button>
+      </div>
+   </div>
+    <script>
+                localStorage.setItem("lastScene", "Game and History/25.html");
+
+                document.getElementById("Next").addEventListener("click", function() {
+                  window.location.href = "26.html";
+                });
+    </script>
+</body>
+</html>

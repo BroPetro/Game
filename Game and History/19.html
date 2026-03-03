@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../Style/Text.css">
+    <script src="../JS/theme.js"></script>
+</head>
+<body>
+   <div class="container">
+      <div class="story-box">
+        <div class="header">
+          <img src="../assets/HMMM.gif" alt="Коррон">
+          <h1>Коррон</h1>
+        </div>
+            <p>Час рухатися далі. За ринком є стара брама до королівського кварталу.</p>
+            <p>Там зберігають списки податків. Якщо знайдемо їх, люди повірять нам.</p>
+            <button id="Next">Йдемо до брами</button>
+      </div>
+   </div>
+    <script>
+                localStorage.setItem("lastScene", "Game and History/19.html");
+
+                document.getElementById("Next").addEventListener("click", function() {
+                window.location.href = "20H.html";
+                });
+    </script>
+</body>
+</html>

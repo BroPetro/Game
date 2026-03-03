@@ -1,0 +1,597 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Архівний лабіринт</title>
+  <style>
+    :root {
+      --bg-1: #0b1220;
+      --bg-2: #1a2740;
+      --panel: rgba(9, 14, 26, 0.82);
+      --panel-border: rgba(255, 255, 255, 0.18);
+      --text: #e5ecff;
+      --accent: #f5c451;
+      --danger: #f87171;
+      --ok: #4ade80;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 16%, #22365c 0%, transparent 28%),
+        radial-gradient(circle at 85% 22%, #2c1f3c 0%, transparent 24%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2));
+    }
+
+    .hud {
+      position: fixed;
+      top: max(10px, env(safe-area-inset-top));
+      left: max(10px, env(safe-area-inset-left));
+      right: max(10px, env(safe-area-inset-right));
+      z-index: 40;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      backdrop-filter: blur(4px);
+      display: grid;
+      gap: 4px;
+    }
+
+    .hud h1 {
+      margin: 0;
+      font-size: clamp(17px, 2.4vw, 25px);
+      line-height: 1.15;
+    }
+
+    .hud p {
+      margin: 0;
+      font-size: clamp(13px, 1.65vw, 18px);
+      line-height: 1.28;
+    }
+
+    #goal {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .arena-wrap {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 110px 10px 118px;
+      min-height: 100dvh;
+    }
+
+    .arena {
+      position: relative;
+      width: min(96vw, 980px);
+      aspect-ratio: 16 / 10;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background:
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 24px, rgba(255,255,255,0.01) 24px 48px),
+        linear-gradient(180deg, #121e32, #0f1728);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.44);
+      touch-action: none;
+    }
+
+    .wall {
+      position: absolute;
+      background: linear-gradient(180deg, #3d4e73, #2e3d5a);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 7px;
+    }
+
+    .doc {
+      position: absolute;
+      width: 5%;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #fff7da, #f7dfa1);
+      border: 2px solid #c9a33d;
+      box-shadow: 0 0 12px rgba(245, 196, 81, 0.72);
+      display: grid;
+      place-items: center;
+      color: #5b3a00;
+      font-weight: 800;
+      font-size: clamp(12px, 1.1vw, 16px);
+      z-index: 6;
+    }
+
+    .doc.hidden {
+      display: none;
+    }
+
+    #player,
+    .enemy {
+      position: absolute;
+      width: 6%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.45));
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .enemy {
+      z-index: 11;
+      filter: drop-shadow(0 0 8px rgba(248, 113, 113, 0.75));
+    }
+
+    #overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: none;
+      place-items: center;
+      text-align: center;
+      background: rgba(4, 8, 16, 0.72);
+      padding: 18px;
+    }
+
+    #overlay.show {
+      display: grid;
+    }
+
+    .overlay-box {
+      width: min(94vw, 560px);
+      background: rgba(8, 14, 24, 0.93);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 14px;
+      padding: 20px 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .overlay-title {
+      margin: 0;
+      font-size: clamp(22px, 3.2vw, 34px);
+      color: var(--ok);
+    }
+
+    .overlay-text {
+      margin: 0;
+      font-size: clamp(14px, 2vw, 19px);
+      color: #d8e4ff;
+    }
+
+    .controls {
+      position: fixed;
+      left: max(10px, env(safe-area-inset-left));
+      right: max(10px, env(safe-area-inset-right));
+      bottom: max(10px, env(safe-area-inset-bottom));
+      z-index: 50;
+      display: none;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .pad {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(56px, 76px));
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .ctrl {
+      min-height: 56px;
+      border-radius: 12px;
+      border: 1px solid #9ca3af;
+      background: rgba(245, 247, 255, 0.95);
+      color: #0f172a;
+      font-size: 25px;
+      font-weight: 800;
+    }
+
+    .ctrl:active {
+      background: #e2e8f0;
+    }
+
+    .empty {
+      visibility: hidden;
+    }
+
+    .danger {
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    @media (pointer: coarse) {
+      .controls {
+        display: flex;
+      }
+
+      .arena-wrap {
+        padding-bottom: 122px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .arena {
+        width: 98vw;
+      }
+
+      .hud {
+        padding: 8px 10px;
+      }
+    }
+
+    @media (pointer: coarse) and (orientation: landscape) {
+      .pad {
+        grid-template-columns: repeat(3, minmax(46px, 64px));
+      }
+
+      .ctrl {
+        min-height: 46px;
+        font-size: 22px;
+      }
+
+      .hud {
+        left: max(6px, env(safe-area-inset-left));
+        right: auto;
+        width: min(62vw, 620px);
+        padding: 6px 9px;
+        gap: 2px;
+      }
+
+      .hud h1 {
+        font-size: clamp(14px, 2vw, 18px);
+      }
+
+      .hud p {
+        font-size: clamp(11px, 1.55vw, 14px);
+        line-height: 1.2;
+      }
+
+      .arena {
+        width: min(97vw, calc((100dvh - 132px) * 1.6), 980px);
+        max-height: calc(100dvh - 132px);
+      }
+
+      .arena-wrap {
+        padding-top: 58px;
+        padding-bottom: 72px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hud">
+    <h1>Архів Палацу</h1>
+    <p id="goal">Знайди 3 секретні документи і не попадись лицарям.</p>
+    <p id="status">Документи: <strong>0 / 3</strong>. Керування: WASD / стрілки.</p>
+  </section>
+
+  <div class="arena-wrap">
+    <section id="arena" class="arena" aria-label="Міні-лабіринт">
+      <img id="player" src="../assets/Player.png" alt="Герой">
+
+      <img class="enemy" id="enemy1" src="../assets/Knight.png" alt="Ворог 1">
+      <img class="enemy" id="enemy2" src="../assets/Knight.png" alt="Ворог 2">
+      <img class="enemy" id="enemy3" src="../assets/Knight.png" alt="Ворог 3">
+
+      <div id="doc1" class="doc" style="left: 10%; top: 79%;">D</div>
+      <div id="doc2" class="doc" style="left: 84%; top: 72%;">D</div>
+      <div id="doc3" class="doc" style="left: 75%; top: 7%;">D</div>
+
+      <div class="wall" style="left: 0%; top: 0%; width: 100%; height: 3%;"></div>
+      <div class="wall" style="left: 0%; top: 97%; width: 100%; height: 3%;"></div>
+      <div class="wall" style="left: 0%; top: 0%; width: 3%; height: 100%;"></div>
+      <div class="wall" style="left: 97%; top: 0%; width: 3%; height: 100%;"></div>
+
+      <div class="wall" style="left: 12%; top: 12%; width: 60%; height: 3%;"></div>
+      <div class="wall" style="left: 30%; top: 24%; width: 3%; height: 40%;"></div>
+      <div class="wall" style="left: 44%; top: 24%; width: 45%; height: 3%;"></div>
+      <div class="wall" style="left: 56%; top: 24%; width: 3%; height: 40%;"></div>
+      <div class="wall" style="left: 12%; top: 44%; width: 35%; height: 3%;"></div>
+      <div class="wall" style="left: 70%; top: 38%; width: 3%; height: 33%;"></div>
+      <div class="wall" style="left: 12%; top: 60%; width: 46%; height: 3%;"></div>
+      <div class="wall" style="left: 26%; top: 72%; width: 3%; height: 18%;"></div>
+      <div class="wall" style="left: 38%; top: 72%; width: 48%; height: 3%;"></div>
+    </section>
+  </div>
+
+  <section class="controls" aria-label="Керування на телефоні">
+    <div class="pad">
+      <button class="ctrl empty" aria-hidden="true">.</button>
+      <button class="ctrl" data-dir="up" aria-label="Вгору">▲</button>
+      <button class="ctrl empty" aria-hidden="true">.</button>
+      <button class="ctrl" data-dir="left" aria-label="Вліво">◀</button>
+      <button class="ctrl" data-dir="down" aria-label="Вниз">▼</button>
+      <button class="ctrl" data-dir="right" aria-label="Вправо">▶</button>
+    </div>
+  </section>
+
+  <div id="overlay">
+    <div class="overlay-box">
+      <h2 class="overlay-title">Документи знайдено</h2>
+      <p class="overlay-text">Ти виніс усі докази з архіву. Переходимо на наступну сторінку...</p>
+    </div>
+  </div>
+
+  <script>
+    localStorage.setItem("lastScene", "Game and History/24.html");
+
+    const NEXT_PAGE = "25.html";
+
+    const player = document.getElementById("player");
+    const goal = document.getElementById("goal");
+    const statusText = document.getElementById("status");
+    const overlay = document.getElementById("overlay");
+
+    const docs = [
+      { el: document.getElementById("doc1"), zone: { x: 10, y: 79, w: 5, h: 5 }, taken: false },
+      { el: document.getElementById("doc2"), zone: { x: 84, y: 72, w: 5, h: 5 }, taken: false },
+      { el: document.getElementById("doc3"), zone: { x: 75, y: 7, w: 5, h: 5 }, taken: false }
+    ];
+
+    const walls = [
+      { x: 0, y: 0, w: 100, h: 3 },
+      { x: 0, y: 97, w: 100, h: 3 },
+      { x: 0, y: 0, w: 3, h: 100 },
+      { x: 97, y: 0, w: 3, h: 100 },
+      { x: 12, y: 12, w: 60, h: 3 },
+      { x: 30, y: 24, w: 3, h: 40 },
+      { x: 44, y: 24, w: 45, h: 3 },
+      { x: 56, y: 24, w: 3, h: 40 },
+      { x: 12, y: 44, w: 35, h: 3 },
+      { x: 70, y: 38, w: 3, h: 33 },
+      { x: 12, y: 60, w: 46, h: 3 },
+      { x: 26, y: 72, w: 3, h: 18 },
+      { x: 38, y: 72, w: 48, h: 3 }
+    ];
+
+    const enemyEls = [
+      document.getElementById("enemy1"),
+      document.getElementById("enemy2"),
+      document.getElementById("enemy3")
+    ];
+
+    const playerSize = 6;
+    const enemySize = 6;
+    const speed = 32;
+
+    let px = 6;
+    let py = 6;
+    let collected = 0;
+    let finished = false;
+
+    const keys = { up: false, down: false, left: false, right: false };
+
+    const enemies = [
+      {
+        x: 84,
+        y: 10,
+        route: [{ x: 84, y: 10 }, { x: 84, y: 50 }, { x: 60, y: 50 }, { x: 60, y: 10 }],
+        target: 1,
+        speed: 17
+      },
+      {
+        x: 16,
+        y: 78,
+        route: [{ x: 16, y: 78 }, { x: 48, y: 78 }, { x: 48, y: 88 }, { x: 16, y: 88 }],
+        target: 1,
+        speed: 15
+      },
+      {
+        x: 72,
+        y: 30,
+        route: [{ x: 72, y: 30 }, { x: 90, y: 30 }, { x: 90, y: 64 }, { x: 72, y: 64 }],
+        target: 1,
+        speed: 14
+      }
+    ];
+
+    function clamp(v, min, max) {
+      return Math.max(min, Math.min(max, v));
+    }
+
+    function intersects(a, b) {
+      return a.x < b.x + b.w &&
+             a.x + a.w > b.x &&
+             a.y < b.y + b.h &&
+             a.y + a.h > b.y;
+    }
+
+    function playerRect(nx = px, ny = py) {
+      return { x: nx, y: ny, w: playerSize, h: playerSize };
+    }
+
+    function collidesWall(nx, ny) {
+      const p = playerRect(nx, ny);
+      return walls.some(function(wall) {
+        return intersects(p, wall);
+      });
+    }
+
+    function renderPlayer() {
+      player.style.left = px + "%";
+      player.style.top = py + "%";
+    }
+
+    function renderEnemies() {
+      enemies.forEach(function(enemy, i) {
+        enemyEls[i].style.left = enemy.x + "%";
+        enemyEls[i].style.top = enemy.y + "%";
+      });
+    }
+
+    function movePlayer(dt) {
+      let dx = 0;
+      let dy = 0;
+
+      if (keys.left) dx -= speed * dt;
+      if (keys.right) dx += speed * dt;
+      if (keys.up) dy -= speed * dt;
+      if (keys.down) dy += speed * dt;
+
+      if (dx !== 0 && dy !== 0) {
+        dx *= 0.7071;
+        dy *= 0.7071;
+      }
+
+      const nx = clamp(px + dx, 0, 100 - playerSize);
+      if (!collidesWall(nx, py)) {
+        px = nx;
+      }
+
+      const ny = clamp(py + dy, 0, 100 - playerSize);
+      if (!collidesWall(px, ny)) {
+        py = ny;
+      }
+    }
+
+    function moveEnemies(dt) {
+      enemies.forEach(function(enemy) {
+        const target = enemy.route[enemy.target];
+        const vx = target.x - enemy.x;
+        const vy = target.y - enemy.y;
+        const dist = Math.hypot(vx, vy);
+        const step = enemy.speed * dt;
+
+        if (dist <= step || dist < 0.05) {
+          enemy.x = target.x;
+          enemy.y = target.y;
+          enemy.target = (enemy.target + 1) % enemy.route.length;
+          return;
+        }
+
+        enemy.x += (vx / dist) * step;
+        enemy.y += (vy / dist) * step;
+      });
+    }
+
+    function resetToStart() {
+      px = 6;
+      py = 6;
+      statusText.innerHTML = "<span class='danger'>Тебе помітив лицар. Повернення на початок!</span>";
+    }
+
+    function checkEnemyHit() {
+      const p = playerRect();
+
+      for (let i = 0; i < enemies.length; i += 1) {
+        const e = { x: enemies[i].x, y: enemies[i].y, w: enemySize, h: enemySize };
+        if (intersects(p, e)) {
+          resetToStart();
+          return;
+        }
+      }
+    }
+
+    function checkDocuments() {
+      const p = playerRect();
+
+      docs.forEach(function(doc) {
+        if (!doc.taken && intersects(p, doc.zone)) {
+          doc.taken = true;
+          doc.el.classList.add("hidden");
+          collected += 1;
+        }
+      });
+
+      if (!finished) {
+        statusText.innerHTML = "Документи: <strong>" + collected + " / 3</strong>. Керування: WASD / стрілки.";
+      }
+
+      if (collected === docs.length && !finished) {
+        finishLevel();
+      }
+    }
+
+    function finishLevel() {
+      finished = true;
+      keys.up = false;
+      keys.down = false;
+      keys.left = false;
+      keys.right = false;
+      goal.textContent = "Усі докази зібрано. Відступаємо з архіву.";
+      statusText.innerHTML = "Документи: <strong>3 / 3</strong>. Відкриваємо наступну сторінку...";
+      overlay.classList.add("show");
+
+      setTimeout(function() {
+        window.location.href = NEXT_PAGE;
+      }, 1200);
+    }
+
+    function setKey(key, isDown) {
+      const k = key.toLowerCase();
+
+      if (key === "ArrowUp" || k === "w") keys.up = isDown;
+      if (key === "ArrowDown" || k === "s") keys.down = isDown;
+      if (key === "ArrowLeft" || k === "a") keys.left = isDown;
+      if (key === "ArrowRight" || k === "d") keys.right = isDown;
+    }
+
+    window.addEventListener("keydown", function(e) {
+      setKey(e.key, true);
+    });
+
+    window.addEventListener("keyup", function(e) {
+      setKey(e.key, false);
+    });
+
+    document.querySelectorAll(".ctrl[data-dir]").forEach(function(btn) {
+      const dir = btn.getAttribute("data-dir");
+
+      function pressStart(e) {
+        e.preventDefault();
+        keys[dir] = true;
+      }
+
+      function pressEnd(e) {
+        e.preventDefault();
+        keys[dir] = false;
+      }
+
+      btn.addEventListener("pointerdown", pressStart);
+      btn.addEventListener("pointerup", pressEnd);
+      btn.addEventListener("pointercancel", pressEnd);
+      btn.addEventListener("pointerleave", pressEnd);
+    });
+
+    let lastTime = 0;
+
+    function loop(ts) {
+      if (!lastTime) {
+        lastTime = ts;
+      }
+
+      const dt = (ts - lastTime) / 1000;
+      lastTime = ts;
+
+      if (!finished) {
+        movePlayer(dt);
+        moveEnemies(dt);
+        checkEnemyHit();
+        checkDocuments();
+        renderPlayer();
+        renderEnemies();
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    renderPlayer();
+    renderEnemies();
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

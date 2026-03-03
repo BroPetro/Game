@@ -1,9 +1,10 @@
-﻿const CACHE_NAME = "relic-v0.0.4";
+﻿const CACHE_NAME = "relic-v0.0.5";
 const OFFLINE_URL = "offline.html";
 
 const urlsToCache = [
   "index.html",
   "offline.html",
+  "story-logic.html",
   "manifest.json",
   "settings.html",
   "sw.js",

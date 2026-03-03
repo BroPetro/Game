@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../Style/Text.css">
+    <script src="../JS/theme.js"></script>
+</head>
+<body>
+   <div class="container">
+      <div class="story-box">
+        <div class="header">
+          <img src="../assets/BroCLIP.gif" alt="Коррон">
+          <h1>Коррон</h1>
+        </div>
+            <p id="line1"></p>
+            <p id="line2"></p>
+            <button id="Next">Продовжити</button>
+      </div>
+   </div>
+    <script>
+                localStorage.setItem("lastScene", "Game and History/22.html");
+
+                const choice = localStorage.getItem("gateChoice");
+                const line1 = document.getElementById("line1");
+                const line2 = document.getElementById("line2");
+
+                if (choice === "code") {
+                    line1.textContent = "Пароль спрацював. Вартовий пропускає нас без зайвого шуму.";
+                    line2.textContent = "Коррон: Гарний хід. Ми маємо кілька хвилин, щоб знайти архів.";
+                } else {
+                    line1.textContent = "Вартовий не одразу повірив, але після розмови погодився допомогти.";
+                    line2.textContent = "Коррон: Чесність спрацювала. Тепер діяти треба швидко.";
+                }
+
+                document.getElementById("Next").addEventListener("click", function() {
+                    window.location.href = "23.html";
+                });
+    </script>
+</body>
+</html>

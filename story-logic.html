@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Логіка сюжету</title>
+  <style>
+    :root {
+      --bg: #f4f1e8;
+      --paper: #fffdf7;
+      --text: #2a2621;
+      --muted: #6b665f;
+      --line: #d8d1c3;
+      --accent: #1f6f5f;
+      --accent-2: #f0b429;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #fff7dc 0%, var(--bg) 45%, #ece7db 100%);
+      color: var(--text);
+    }
+
+    .page {
+      width: min(940px, 92vw);
+      margin: 24px auto;
+      padding: 20px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 34px);
+    }
+
+    .subtitle {
+      margin: 8px 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .timeline {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .timeline li {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .step {
+      display: inline-block;
+      margin-bottom: 6px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .why {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .summary {
+      margin-top: 16px;
+      padding: 12px;
+      border-left: 4px solid var(--accent-2);
+      background: #fffaea;
+      border-radius: 8px;
+      line-height: 1.45;
+    }
+
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid #7e7e7e;
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      padding: 11px 16px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+  </style>
+  <script src="JS/theme.js"></script>
+</head>
+<body>
+  <main class="page">
+    <h1>Логіка сюжету</h1>
+    <p class="subtitle">
+      Послідовність подій вибудувана так, щоб у героя була чітка мотивація на кожному етапі: знайомство -> конфлікт -> підготовка -> дія.
+    </p>
+
+    <ol class="timeline">
+      <li>
+        <span class="step">Крок 1</span>
+        <div class="title">Пробудження і знайомство</div>
+        <div class="why">Герой прокидається в незнайомому місці, знайомиться з Корроном і дізнається базову інформацію про світ.</div>
+      </li>
+      <li>
+        <span class="step">Крок 2</span>
+        <div class="title">Особистий контекст</div>
+        <div class="why">Герой називає своє ім'я і походження, щоб історія стала персональною, а не абстрактною.</div>
+      </li>
+      <li>
+        <span class="step">Крок 3</span>
+        <div class="title">Історія королівства</div>
+        <div class="why">Коррон пояснює, що Аурелія виросла з малого міста в сильне королівство, але зараз занепадає через поганого правителя.</div>
+      </li>
+      <li>
+        <span class="step">Крок 4</span>
+        <div class="title">Конфлікт і мета</div>
+        <div class="why">Головний конфлікт стає ясним: влада короля шкодить людям. Герою потрібні знання і ресурси, щоб діяти далі.</div>
+      </li>
+      <li>
+        <span class="step">Крок 5</span>
+        <div class="title">Перехід до активних дій</div>
+        <div class="why">Герой допомагає Коррону (яблука), отримує довіру, після чого вони разом їдуть до головного міста.</div>
+      </li>
+      <li>
+        <span class="step">Крок 6</span>
+        <div class="title">Практичний квест у місті</div>
+        <div class="why">Щоб потрапити на ринок, треба знайти пропуск. Це перевірка уважності й підготовка до торгу.</div>
+      </li>
+      <li>
+        <span class="step">Крок 7</span>
+        <div class="title">Підготовка до небезпеки</div>
+        <div class="why">Герой має обмежений бюджет і купує меч та щит. Торг вчить економити й приймати рішення під тиском.</div>
+      </li>
+      <li>
+        <span class="step">Крок 8</span>
+        <div class="title">Фінал акту</div>
+        <div class="why">Обидва предмети куплено, команда готова до наступного етапу плану проти наслідків правління короля.</div>
+      </li>
+    </ol>
+
+    <p class="summary">
+      Коротко: герой з нуля входить у світ, розуміє проблему королівства, проходить серію перевірок і в кінці акту отримує ресурси для більш складної місії.
+    </p>
+
+    <div class="actions">
+      <button class="btn primary" id="toGame">Почати гру</button>
+      <button class="btn" id="toMenu">У меню</button>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById("toGame").addEventListener("click", function() {
+      window.location.href = "Game and History/1.html";
+    });
+
+    document.getElementById("toMenu").addEventListener("click", function() {
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>
+
+

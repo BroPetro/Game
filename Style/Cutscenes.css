@@ -1,34 +1,163 @@
-p {
-    position: absolute;    
-    bottom: 50px;         
-    left: 50%;
-    font-family: 'Press Start 2P', 'Roboto Slab', sans-serif;            
-    transform: translateX(-50%);  
-    text-align: center;    
-    color: rgb(0, 0, 0);         
-    font-size: 25px;       
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Nunito:wght@600;700&display=swap");
+
+:root {
+    --cutscene-bg-1: #f8fafc;
+    --cutscene-bg-2: #dbeafe;
+    --subtitle-bg: rgba(255, 255, 255, 0.82);
+    --subtitle-border: rgba(100, 116, 139, 0.42);
+    --subtitle-text: #0f172a;
+    --accent: #0284c7;
+    --accent-2: #0ea5e9;
+    --spot-a: rgba(14, 165, 233, 0.16);
+    --spot-b: rgba(249, 115, 22, 0.2);
+    --vignette: rgba(2, 6, 23, 0.35);
 }
+
+html[data-theme="dark"] {
+    --cutscene-bg-1: #020617;
+    --cutscene-bg-2: #1f2937;
+    --subtitle-bg: rgba(2, 6, 23, 0.76);
+    --subtitle-border: rgba(148, 163, 184, 0.42);
+    --subtitle-text: #f8fafc;
+    --accent: #f59e0b;
+    --accent-2: #ea580c;
+    --spot-a: rgba(56, 189, 248, 0.16);
+    --spot-b: rgba(234, 88, 12, 0.2);
+    --vignette: rgba(0, 0, 0, 0.78);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    background:
+        radial-gradient(900px 400px at 75% 18%, var(--spot-a), transparent 62%),
+        radial-gradient(1000px 460px at 15% 90%, var(--spot-b), transparent 66%),
+        linear-gradient(140deg, var(--cutscene-bg-2), var(--cutscene-bg-1));
+    font-family: "Nunito", "Segoe UI", sans-serif;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 140px var(--vignette);
+    z-index: 2;
+}
+
 img {
-    position: absolute;       /* абсолютне позиціювання */
-    top: 50%;                 /* по вертикалі центр */
-    left: 50%;                /* по горизонталі центр */
-    transform: translate(-50%, -50%);  /* точно по центру */
-    max-width: 80%;           /* щоб не виходила за межі екрану */
-    height: auto;             /* пропорційна висота */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(92vw, 1100px);
+    max-height: 74vh;
+    object-fit: contain;
+    border-radius: 16px;
+    border: 1px solid rgba(248, 250, 252, 0.2);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
+    animation: scene-fade 0.7s ease-out;
+    z-index: 1;
 }
-button {
-    position: absolute;          /* абсолютне позиціювання */
-    bottom: 10px;                /* відступ від низу, можна змінити */
-    left: 50%;                   /* по горизонталі центр */
-    transform: translateX(-50%); /* центрування по X */
-    font-family: 'Press Start 2P', 'Roboto Slab', sans-serif; /* стиль шрифту */
-    font-size: 20px;
-    padding: 10px 20px;          /* внутрішні відступи */
+
+p {
+    position: fixed;
+    left: 50%;
+    bottom: clamp(92px, 14vh, 132px);
+    transform: translateX(-50%);
+    width: min(96vw, 920px);
+    margin: 0;
+    padding: 14px 18px;
     text-align: center;
-    color: white;                /* колір тексту */
-    background-color: #333;      /* фон кнопки, можна змінити */
-    border: 2px solid #fff;      /* обводка */
-    border-radius: 5px;          /* закруглені краї */
-    cursor: pointer;             /* курсор при наведенні */
-    z-index: 10;                 /* щоб кнопка була над усім */
+    color: var(--subtitle-text);
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+    font-size: clamp(17px, 2.2vw, 30px);
+    font-family: "Cinzel", "Times New Roman", serif;
+    background: var(--subtitle-bg);
+    border: 1px solid var(--subtitle-border);
+    border-radius: 14px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 10px 28px rgba(2, 6, 23, 0.45);
+    z-index: 3;
+}
+
+button {
+    position: fixed;
+    left: 50%;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    min-width: 180px;
+    padding: 12px 20px;
+    border: 1px solid rgba(251, 191, 36, 0.62);
+    border-radius: 12px;
+    cursor: pointer;
+    color: #fff7ed;
+    font-family: "Nunito", "Segoe UI", sans-serif;
+    font-size: clamp(15px, 1.3vw, 20px);
+    font-weight: 700;
+    background: linear-gradient(130deg, var(--accent), var(--accent-2));
+    box-shadow: 0 8px 22px rgba(234, 88, 12, 0.35);
+    z-index: 4;
+    transition: transform 0.16s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+button:hover {
+    transform: translateX(-50%) translateY(-1px);
+    box-shadow: 0 11px 24px rgba(234, 88, 12, 0.42);
+    filter: brightness(1.05);
+}
+
+button:focus-visible {
+    outline: 3px solid rgba(254, 215, 170, 0.7);
+    outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+    img {
+        width: min(95vw, 760px);
+        max-height: 64vh;
+    }
+
+    p {
+        bottom: 92px;
+        padding: 12px 14px;
+    }
+
+    button {
+        width: min(92vw, 380px);
+    }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+    img {
+        max-height: 62vh;
+    }
+
+    p {
+        bottom: 74px;
+        font-size: clamp(14px, 2vw, 20px);
+        padding: 9px 12px;
+    }
+
+    button {
+        padding: 8px 14px;
+        min-width: 140px;
+    }
+}
+
+@keyframes scene-fade {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.985);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
