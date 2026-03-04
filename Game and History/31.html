@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../Style/Text.css">
+    <script src="../JS/theme.js"></script>
+</head>
+<body>
+   <div class="container">
+      <div class="story-box">
+        <div class="header">
+          <img src="../assets/BroCLIP.gif" alt="Коррон">
+          <h1>Рішення Ради</h1>
+        </div>
+            <p>З королівської скарбниці витрачено 1000 на потреби королівства.</p>
+            <p id="currency">Валюта королівства: 0</p>
+            <button id="Next">Далі</button>
+      </div>
+   </div>
+    <script>
+                localStorage.setItem("lastScene", "Game and History/31.html");
+
+                const currencyKey = "kingdomCurrency";
+                const applyKey = "currencyApplied31";
+                let currentCurrency = parseInt(localStorage.getItem(currencyKey), 10);
+                if (Number.isNaN(currentCurrency)) currentCurrency = 0;
+
+                if (!localStorage.getItem(applyKey)) {
+                  currentCurrency -= 1000;
+                  localStorage.setItem(currencyKey, String(currentCurrency));
+                  localStorage.setItem(applyKey, "1");
+                }
+
+                document.getElementById("currency").textContent = "Валюта королівства: " + currentCurrency;
+
+                document.getElementById("Next").addEventListener("click", function() {
+                  window.location.href = "32.html";
+                });
+    </script>
+</body>
+</html>

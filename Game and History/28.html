@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../Style/Text.css">
+    <script src="../JS/theme.js"></script>
+</head>
+<body>
+   <div class="container">
+      <div class="story-box">
+        <div class="header">
+          <img src="../assets/BroCLIP.gif" alt="Коррон">
+          <h1>Ніч перед вибором</h1>
+        </div>
+            <p>Коррон проводить тебе до старої бібліотеки палацу. Там зберігаються закони і клятви правителів.</p>
+            <p>Коррон: "Сила правителя не в мечі. Вона в чесному рішенні, коли всі дивляться на тебе."</p>
+            <p>На світанку рада проведе перевірку знань і мудрості. Від цього залежить майбутнє Аурелії.</p>
+            <button id="Next">Підготуватися</button>
+      </div>
+   </div>
+    <script>
+                localStorage.setItem("lastScene", "Game and History/28.html");
+
+                document.getElementById("Next").addEventListener("click", function() {
+                  window.location.href = "29.html";
+                });
+    </script>
+</body>
+</html>

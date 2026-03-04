@@ -16,21 +16,18 @@
         </div>
             <p>Ранком ти передав документи писарю ради. Фальшиві звіти і справжні цифри не залишили сумнівів.</p>
             <p>Коррон: "Сьогодні ми не лише врятували місто. Ми повернули людям правду."</p>
-            <p>Наступний крок: вирішити, кого ставити новим хранителем скарбниці.</p>
-            <button id="ToMap">До вибору глави</button>
-            <button id="Replay">Переграти лабіринт</button>
+            <p>Рада скликає велике слухання. Твоє слово може змінити долю всього королівства.</p>
+            <button id="ToNext">Йти на слухання</button>
       </div>
    </div>
     <script>
                 localStorage.setItem("lastScene", "Game and History/26.html");
 
-                document.getElementById("ToMap").addEventListener("click", function() {
-                  window.location.href = "../story-logic.html";
+                document.getElementById("ToNext").addEventListener("click", function() {
+                  window.location.href = "27.html";
                 });
 
-                document.getElementById("Replay").addEventListener("click", function() {
-                  window.location.href = "24.html";
-                });
+
     </script>
 </body>
 </html>

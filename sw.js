@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = "relic-v0.0.5";
+﻿const CACHE_NAME = "relic-v0.0.6";
 const OFFLINE_URL = "offline.html";
 
 const urlsToCache = [
@@ -57,7 +57,20 @@ const urlsToCache = [
   "Game and History/15.html",
   "Game and History/16.html",
   "Game and History/17.html",
-  "Game and History/18.html"
+  "Game and History/18.html",
+  "Game and History/19.html",
+  "Game and History/20H.html",
+  "Game and History/21.html",
+  "Game and History/22.html",
+  "Game and History/23.html",
+  "Game and History/24.html",
+  "Game and History/25.html",
+  "Game and History/26.html",
+  "Game and History/27.html",
+  "Game and History/28.html",
+  "Game and History/29.html",
+  "Game and History/30.html",
+  "Game and History/31.html"
 ];
 
 self.addEventListener("install", event => {

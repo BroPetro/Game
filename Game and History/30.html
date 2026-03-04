@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мініквіз Ради</title>
+  <link rel="stylesheet" href="../Style/Text.css">
+  <script src="../JS/theme.js"></script>
+  <style>
+    .quiz-box {
+      margin-top: 10px;
+      padding: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    html[data-theme="dark"] .quiz-box {
+      background: rgba(15, 23, 42, 0.5);
+    }
+
+    .q-title {
+      margin: 0 0 8px;
+      font-weight: 700;
+      font-size: clamp(18px, 1.8vw, 24px);
+    }
+
+    #answers {
+      display: grid;
+      gap: 8px;
+    }
+
+    #result {
+      margin-top: 14px;
+      font-size: clamp(16px, 1.45vw, 20px);
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="story-box">
+      <div class="header">
+        <img src="../assets/Cutscenes/King.gif" alt="Коронація">
+        <h1>Мініквіз Ради</h1>
+      </div>
+
+      <p>Останній крок перед троном. Відповідай на 3 питання ради.</p>
+
+      <div class="quiz-box">
+        <p class="q-title" id="questionText"></p>
+        <div id="answers"></div>
+      </div>
+
+      <p id="result" hidden></p>
+      <button id="restart" hidden>Пройти ще раз</button>
+      <button id="toMenu" hidden>У головне меню</button>
+      <button id="toStrategy" hidden>Почати стратегію</button>
+    </div>
+  </div>
+
+  <script>
+    localStorage.setItem("lastScene", "Game and History/30.html");
+
+    const quiz = [
+      {
+        q: "Що робить правителя справедливим?",
+        options: [
+          "Однаковий закон для всіх",
+          "Суворі покарання для слабких",
+          "Таємні угоди з багатими"
+        ],
+        correct: 0
+      },
+      {
+        q: "Під час неврожаю перший крок короля:",
+        options: [
+          "Підняти податки",
+          "Відкрити зернові склади для людей",
+          "Влаштувати бенкет для ради"
+        ],
+        correct: 1
+      },
+      {
+        q: "Що важливіше за страх перед владою?",
+        options: [
+          "Довіра народу",
+          "Кількість охорони",
+          "Розкіш палацу"
+        ],
+        correct: 0
+      }
+    ];
+
+    let index = 0;
+    let score = 0;
+
+    const questionText = document.getElementById("questionText");
+    const answers = document.getElementById("answers");
+    const result = document.getElementById("result");
+    const restart = document.getElementById("restart");
+    const toMenu = document.getElementById("toMenu");
+    const toStrategy = document.getElementById("toStrategy");
+
+    function renderQuestion() {
+      const current = quiz[index];
+      questionText.textContent = (index + 1) + "/3. " + current.q;
+      answers.innerHTML = "";
+
+      current.options.forEach((option, i) => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.addEventListener("click", function() {
+          if (i === current.correct) score++;
+          index++;
+          if (index < quiz.length) {
+            renderQuestion();
+          } else {
+            showResult();
+          }
+        });
+        answers.appendChild(button);
+      });
+    }
+
+    function showResult() {
+      questionText.textContent = "Квіз завершено";
+      answers.innerHTML = "";
+      result.hidden = false;
+      restart.hidden = false;
+      toMenu.hidden = false;
+      toStrategy.hidden = score < 2;
+
+      if (score >= 2) {
+        result.textContent = "Ти набрав " + score + " з 3.\nРада і народ одностайно обирають тебе королем Аурелії.\nТепер час керувати державою у стратегії.";
+      } else {
+        result.textContent = "Ти набрав " + score + " з 3.\nРада просить тебе ще підготуватися перед коронацією.\nСпробуй мініквіз ще раз, щоб довести свою мудрість.";
+      }
+    }
+
+    restart.addEventListener("click", function() {
+      index = 0;
+      score = 0;
+      result.hidden = true;
+      toStrategy.hidden = true;
+      renderQuestion();
+    });
+
+    toMenu.addEventListener("click", function() {
+      window.location.href = "../index.html";
+    });
+
+    toStrategy.addEventListener("click", function() {
+      window.location.href = "31.html";
+    });
+
+    renderQuestion();
+  </script>
+</body>
+</html>

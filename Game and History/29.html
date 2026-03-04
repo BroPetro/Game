@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="../Style/Text.css">
+    <script src="../JS/theme.js"></script>
+</head>
+<body>
+   <div class="container">
+      <div class="story-box">
+        <div class="header">
+          <img src="../assets/Cutscenes/King.gif" alt="Коррон">
+          <h1>Рішення Ради</h1>
+        </div>
+            <p>Старійшини погоджуються: королівству потрібен новий правитель, який служить людям.</p>
+            <p>Але спершу ти маєш пройти короткий іспит ради: три питання про справедливість, мудрість і відповідальність.</p>
+            <p>Якщо відповіси гідно, народ підтримає твою коронацію.</p>
+            <button id="Next">Почати мініквіз</button>
+      </div>
+   </div>
+    <script>
+                localStorage.setItem("lastScene", "Game and History/29.html");
+
+                document.getElementById("Next").addEventListener("click", function() {
+                  window.location.href = "30.html";
+                });
+    </script>
+</body>
+</html>
